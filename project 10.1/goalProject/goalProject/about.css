@@ -1,0 +1,150 @@
+﻿:root {
+    --orange: #F24726;
+    --blue: #4D4848;
+    --grays: #F0F2F5;
+}
+
+.navbar {
+    background-color: #F24726;
+}
+
+    .navbar .navbar-nav .nav-link {
+        color: #fff;
+        font-size: 1.1em;
+    }
+
+        .navbar .navbar-nav .nav-link:hover {
+            background-color: white;
+            color: #F24726;
+        }
+
+    .navbar img {
+        height: 40px;
+    }
+
+#Button1 {
+    background-color: #F24726;
+}
+
+    #Button1:hover {
+        color: #F24726;
+        background-color: white;
+    }
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+body {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titleAbout {
+    color: #F24726;
+    text-align: center;
+    font-size: 50px;
+    padding: 25px 0;
+}
+
+.midTitle {
+    font-weight: bold;
+    font-size: 25px;
+    padding: 25px 0;
+}
+
+.paragraphs {
+    font-size: 25px;
+    padding: 5px 0;
+}
+
+.container1 {
+    width: 85%;
+    background-color: #F0F2F5;
+    padding: 40px;
+    margin: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boxs {
+    width: 80%;
+    padding-bottom: 25px;
+}
+
+
+@media (min-width: 480px) and (max-width: 768px) {
+
+    img {
+        width: 100%;
+    }
+
+    .container1 {
+        width: 90%;
+        padding: 15px;
+        margin: 30px;
+    }
+
+    .midTitle {
+        font-size: 18px;
+    }
+
+    .paragraphs {
+        font-size: 18px;
+    }
+
+    .titleAbout {
+        font-size: 30px;
+    }
+
+    .midTitle {
+        padding: 10px 0;
+    }
+
+    .boxs {
+        width: 90%;
+    }
+}
+
+@media screen and (min-device-width: 0px) and (max-device-width : 480px) {
+
+    img {
+        width: 100%;
+    }
+
+    .container1 {
+        width: 90%;
+        padding: 15px;
+        margin: 30px;
+    }
+
+    .midTitle {
+        font-size: 15px;
+    }
+
+    .paragraphs {
+        font-size: 15px;
+    }
+
+    .titleAbout {
+        font-size: 30px;
+    }
+
+    .midTitle {
+        padding: 10px 0;
+    }
+
+    .boxs {
+        width: 90%;
+    }
+
+    .titleAbout {
+        font-size: 26px;
+    }
+}
