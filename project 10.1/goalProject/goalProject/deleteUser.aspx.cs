@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class deleteUser : System.Web.UI.Page
     {
@@ -16,7 +16,7 @@ namespace goalProject
             try
             {
                 // Creating Connection  
-                con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database= goalProject; integrated security=SSPI");
+                con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database= masterProject; integrated security=SSPI");
                 // writing sql query  
                 SqlCommand cm = new SqlCommand($"delete from users where id = '{Request.QueryString["id"]}'", con);
                 // Opening Connection  

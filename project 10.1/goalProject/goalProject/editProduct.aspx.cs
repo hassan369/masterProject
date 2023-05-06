@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class editProduct : System.Web.UI.Page
     {
@@ -141,7 +141,7 @@ namespace goalProject
             try
             {
                 // Creating Connection  
-                con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database= goalProject; integrated security=SSPI");
+                con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database= masterProject; integrated security=SSPI");
                 // writing sql query  
                 SqlCommand cm = new SqlCommand($"delete from product where id = '{Request.QueryString["id"]}'", con);
                 // Opening Connection  

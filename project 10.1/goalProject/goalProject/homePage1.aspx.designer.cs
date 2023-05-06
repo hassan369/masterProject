@@ -7,12 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace goalProject
+namespace masterProject
 {
 
 
     public partial class homePage1
     {
+
+        /// <summary>
+        /// scrollPositionHiddenField control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField scrollPositionHiddenField;
 
         /// <summary>
         /// productsContainer control.

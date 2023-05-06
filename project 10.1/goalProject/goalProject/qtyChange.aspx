@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="qtyChange.aspx.cs" Inherits="goalProject.qtyChange" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="qtyChange.aspx.cs" Inherits="masterProject.qtyChange" %>
 
 <!DOCTYPE html>
 

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 
-namespace goalProject
+
+namespace masterProject
 {
     public partial class checkout : System.Web.UI.Page
     {
@@ -17,6 +20,7 @@ namespace goalProject
 
                 if (!IsPostBack)
                 {
+
                     SqlConnection con = null;
                     SqlConnection con2 = null;
                     try
@@ -26,7 +30,7 @@ namespace goalProject
                         con2 = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
 
                         // writing sql query  
-                        SqlCommand cm = new SqlCommand($"select * from cart join product on cart.product_id = product.id where cart.user_id is null", con);
+                        SqlCommand cm = new SqlCommand($"select * from cart join product on cart.product_id = product.id join users on cart.user_id = users.id where cart.user_id = {Session["userId"]}", con);
                         // Opening Connection  
                         con.Open();
                         con2.Open();
@@ -68,7 +72,7 @@ namespace goalProject
                         while (rdr2.Read())
                         {
 
-                            totalPrice.InnerHtml = PriceTotal.ToString();
+                            totalPrice.InnerHtml = PriceTotal.ToString() + "JD";
 
 
                         }
@@ -84,6 +88,22 @@ namespace goalProject
                         con.Close();
                         con2.Close();
                     }
+
+                    //autofill the shipping info from user table
+                    if (Session["name"] != null)
+                    {
+                        txtFullName.Text = Session["name"].ToString();
+                    }
+
+                    if (Session["email"] != null)
+                    {
+                        txtEmail.Text = Session["email"].ToString();
+                    }
+
+                    if (Session["phoneNumber"] != null)
+                    {
+                        txtContactNumber.Text = Session["phoneNumber"].ToString();
+                    }
                 }
 
             }
@@ -93,5 +113,64 @@ namespace goalProject
             }
 
         }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss");
+
+            SqlConnection con = null;
+            SqlConnection con2 = null;
+            SqlConnection con3 = null;
+            SqlConnection con4 = null;
+
+            try
+            {
+                con = new SqlConnection("data source =DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+                con2 = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+                con3 = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+                con4 = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+
+                string fullName = txtFullName.Text.Trim();
+                string contactNumber = txtContactNumber.Text.Trim();
+                string email = txtEmail.Text.Trim();
+                string address = txtAddress.Text.Trim();
+                string deliveryInstructions = txtDeliveryInstructions.Text.Trim();
+
+                SqlCommand cm = new SqlCommand($"INSERT INTO orders (datee, user_id, full_name, contact_number, email, address, delivery_instructions) VALUES ('{currentDate}', '{Session["userId"]}', '{fullName}', '{contactNumber}', '{email}', '{address}', '{deliveryInstructions}'); SELECT SCOPE_IDENTITY();", con);
+                SqlCommand cm2 = new SqlCommand($"select * from cart join product on cart.product_id = product.id join users on cart.user_id = users.id where cart.user_id = {Session["userId"]}", con2);
+                SqlCommand cm4 = new SqlCommand($"delete from cart where user_id = {Session["userId"]};", con4);
+
+                con.Open();
+                con2.Open();
+                con4.Open();
+
+                object orderIdObj = cm.ExecuteScalar();
+                int orderId = Convert.ToInt32(orderIdObj);
+
+                SqlDataReader sdr = cm2.ExecuteReader();
+
+                while (sdr.Read())
+                {
+                    SqlCommand cm3 = new SqlCommand($"INSERT INTO orders_details (order_id, product_id, qty_order_details) VALUES ({orderId}, '{sdr[1]}', {sdr[4]});", con3);
+                    con3.Open();
+                    cm3.ExecuteNonQuery();
+                    con3.Close();
+                }
+
+                cm4.ExecuteNonQuery();
+                Response.Redirect($"acart.aspx?id={Session["id"]}");
+
+            }
+            catch (Exception A)
+            {
+             //   Label1.Attributes.Add("style", "display:inline-block");
+               // Label1.Text = "OOPs, something went wrong." + A;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
     }
 }

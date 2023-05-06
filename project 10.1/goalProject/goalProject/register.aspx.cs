@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class register : System.Web.UI.Page
     {
@@ -20,7 +20,7 @@ namespace goalProject
             try
             {
                 // Creating Connection  
-                con = new SqlConnection("data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalproject; integrated security=SSPI");
+                con = new SqlConnection("data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
                 // writing sql query  
                 string name = TextBox1.Text + " " + TextBox4.Text;
                 int phone = Convert.ToInt32(TextBox5.Text);

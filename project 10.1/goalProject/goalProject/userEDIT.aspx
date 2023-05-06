@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="userEDIT.aspx.cs" Inherits="goalProject.userEDIT" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="userEDIT.aspx.cs" Inherits="masterProject.userEDIT" %>
 
 <!DOCTYPE html>
 

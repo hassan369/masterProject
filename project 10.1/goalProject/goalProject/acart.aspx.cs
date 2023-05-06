@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class cart : System.Web.UI.Page
     {
@@ -141,19 +141,32 @@ namespace goalProject
                             double originalAfterQty = x * Convert.ToInt32(sdr[4]);
                             double priceAfterQty = newPrice * Convert.ToInt32(sdr[4]);
                             PriceTotal+= priceAfterQty;
-                            
+
                             if (Convert.ToDecimal(sdr[11]) != 0)
                             {
-                                cartContainer.InnerHtml += $"<div class='cartBox' ><img class='productIMG'  src='{sdr[10]}' /> <span class='details'>{sdr[6]}</span class='details'><a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>   <input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>    <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a><span class='details' style='text-decoration: line-through;'>{originalAfterQty} $</span> <span class='details'>{priceAfterQty} $</span> <a style='color: red; font-weight: bold; text-decoration: none;'  class='details' href='deleteCart.aspx?id={sdr[0]}'>delete</a><br/> </div>";
+                                cartContainer.InnerHtml += $"<div class='cartBox'>" +
+                                                               $"<img class='productIMG' src='{sdr[10]}' />" +
+                                                               $"<span class='details'>{sdr[6]}</span>" +
+                                                               $"<a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>" +
+                                                               $"<input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>" +
+                                                               $"<a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a>" +
+                                                               $"<span class='details' style='text-decoration: line-through;'>{originalAfterQty} $</span>" +
+                                                               $"<span class='details'>{priceAfterQty} $</span>" +
+                                                               $"<a style='color: red; font-weight: bold; text-decoration: none;' class='details' href='deleteCart.aspx?id={sdr[0]}'>delete</a><br/>" +
+                                                           $"</div>";
                             }
                             else
                             {
-                                cartContainer.InnerHtml += $"<div class='cartBox' ><img class='productIMG'  src='{sdr[10]}' /> <span class='details'>{sdr[6]}</span class='details'><a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>   <input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>    <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a> <span class='details' >{priceAfterQty} $</span> <a class='details' style='color: red; font-weight: bold; text-decoration: none;' href='deleteCart.aspx?id={sdr[0]}'>delete</a><br/> </div>";
+                                cartContainer.InnerHtml += $"<div class='cartBox'>" +
+                                                               $"<img class='productIMG' src='{sdr[10]}' />" +
+                                                               $"<span class='details'>{sdr[6]}</span>" +
+                                                               $"<a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>" +
+                                                               $"<input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>" +
+                                                               $"<a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a>" +
+                                                               $"<span class='details'>{priceAfterQty} $</span>" +
+                                                               $"<a class='details' style='color: red; font-weight: bold; text-decoration: none;' href='deleteCart.aspx?id={sdr[0]}'>delete</a><br/>" +
+                                                           $"</div>";
                             }
-
-
-
-
 
                         }
                         SqlCommand comand2 = new SqlCommand($"select sum(product.price) from cart join product on cart.product_id = product.id join users on cart.user_id = users.id where cart.user_id = {Session["userId"]};", con2);

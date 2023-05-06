@@ -13,7 +13,7 @@ using System.Xml.Linq;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class product : System.Web.UI.Page
     {

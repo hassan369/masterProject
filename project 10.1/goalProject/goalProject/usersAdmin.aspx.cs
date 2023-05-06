@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class usersAdmin : System.Web.UI.Page
     {

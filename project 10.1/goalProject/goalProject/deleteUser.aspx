@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="deleteUser.aspx.cs" Inherits="goalProject.deleteUser" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="deleteUser.aspx.cs" Inherits="masterProject.deleteUser" %>
 
 <!DOCTYPE html>
 

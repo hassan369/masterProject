@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="acart.aspx.cs" Inherits="goalProject.cart" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="acart.aspx.cs" Inherits="masterProject.cart" %>
 
 <!DOCTYPE html>
 

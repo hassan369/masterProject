@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class login : System.Web.UI.Page
     {
@@ -23,6 +23,87 @@ namespace goalProject
             }
 
         }
+
+        private Dictionary<int, int> GetTempCart()
+        {
+            var tempCart = new Dictionary<int, int>();
+
+            if (Request.Cookies["tempCart"] != null)
+            {
+                string[] items = Request.Cookies["tempCart"].Value.Split(',');
+
+                foreach (string item in items)
+                {
+                    string[] data = item.Split('-');
+                    int productId = int.Parse(data[0]);
+                    int qty = int.Parse(data[1]);
+                    tempCart.Add(productId, qty);
+                }
+            }
+
+            return tempCart;
+        }
+
+        private void MergeTempCartWithUserCart(int userId)
+        {
+            var tempCart = GetTempCart();
+
+            if (tempCart.Count > 0)
+            {
+                SqlConnection con = null;
+                try
+                {
+                    con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+
+                    foreach (var item in tempCart)
+                    {
+                        int productId = item.Key;
+                        int qty = item.Value;
+
+                        SqlCommand checkCartCmd = new SqlCommand($"SELECT * FROM cart WHERE product_id = {productId} AND user_id = {userId}", con);
+                        con.Open();
+                        SqlDataReader sdr = checkCartCmd.ExecuteReader();
+                        bool itemExists = sdr.HasRows;
+                        con.Close();
+
+                        if (itemExists)
+                        {
+                            SqlCommand updateCmd = new SqlCommand($"UPDATE cart SET qty = qty + {qty} WHERE product_id = {productId} AND user_id = {userId}", con);
+                            con.Open();
+                            updateCmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                        else
+                        {
+                            SqlCommand insertCmd = new SqlCommand($"INSERT INTO cart (product_id, user_id, qty) VALUES ({productId}, {userId}, {qty})", con);
+                            con.Open();
+                            insertCmd.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions if needed
+                }
+                finally
+                {
+                    if (con != null)
+                    {
+                        con.Close();
+                    }
+                }
+
+                // Clear the temporary cart cookie
+                if (Response.Cookies["tempCart"] != null)
+                {
+                    HttpCookie tempCartCookie = new HttpCookie("tempCart");
+                    tempCartCookie.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(tempCartCookie);
+                }
+            }
+        }
+
 
         protected void Button1_Click(object sender, EventArgs e)
         {
@@ -57,6 +138,7 @@ namespace goalProject
                             Session["name"] = sdr[1];
                             Session["email"] = sdr[2];
                             Session["isAdmin"] = Convert.ToBoolean(sdr[4]);
+                            Session["phoneNumber"] = sdr[6];
                             Response.Redirect("dashboard.aspx");
 
                         }
@@ -70,6 +152,11 @@ namespace goalProject
                         Session["name"] = sdr[1];
                         Session["email"] = sdr[2];
                         Session["isAdmin"] = Convert.ToBoolean(sdr[4]) ;
+                        Session["phoneNumber"] = sdr[6];
+
+                        // Merge the temporary cart with the user's existing cart
+                        MergeTempCartWithUserCart(Convert.ToInt32(sdr[0]));
+
                         if (Request.QueryString["redirectId"] != null)
                         {
                             Response.Redirect($"product.aspx?id={Request.QueryString["redirectId"]}");

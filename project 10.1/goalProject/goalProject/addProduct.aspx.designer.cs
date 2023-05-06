@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace goalProject
+namespace masterProject
 {
 
 

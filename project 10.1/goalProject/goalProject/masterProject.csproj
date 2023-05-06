@@ -88,15 +88,30 @@
     <Content Include="homePage1.aspx" />
     <Content Include="Images\Capture.PNG" />
     <Content Include="Images\Capture2.PNG" />
+    <Content Include="Images\egg.jpg" />
+    <Content Include="Images\mazraa.jpg" />
+    <Content Include="Images\nadic.jpg" />
+    <Content Include="Images\products\egg.jpg" />
+    <Content Include="Images\products\mazraa.jpg" />
+    <Content Include="Images\products\nadic.jpg" />
+    <Content Include="Images\products\ulkar.jpg" />
+    <Content Include="Images\ulkar.jpg" />
+    <Content Include="img\product\egg.jpg" />
+    <Content Include="img\product\mazraa.jpg" />
+    <Content Include="img\product\nadic.jpg" />
+    <Content Include="img\product\ulkar.jpg" />
+    <Content Include="img\SAKIP ONLINE WHITE %281%29 copy.png" />
     <Content Include="login.aspx" />
     <Content Include="order.aspx" />
     <Content Include="ordersAdmin.aspx" />
+    <Content Include="otherpage.aspx" />
     <Content Include="product.aspx" />
     <Content Include="product.css" />
     <Content Include="product1.aspx" />
     <Content Include="productsAdmin.aspx" />
     <Content Include="qtyChange.aspx" />
     <Content Include="register.aspx" />
+    <Content Include="shopGrid.aspx" />
     <Content Include="totalsales.aspx" />
     <Content Include="user.aspx" />
     <Content Include="userEDIT.aspx" />
@@ -226,6 +241,13 @@
     <Compile Include="ordersAdmin.aspx.designer.cs">
       <DependentUpon>ordersAdmin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="otherpage.aspx.cs">
+      <DependentUpon>otherpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="otherpage.aspx.designer.cs">
+      <DependentUpon>otherpage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="product.aspx.cs">
       <DependentUpon>product.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -261,6 +283,13 @@
     </Compile>
     <Compile Include="register.aspx.designer.cs">
       <DependentUpon>register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="shopGrid.aspx.cs">
+      <DependentUpon>shopGrid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="shopGrid.aspx.designer.cs">
+      <DependentUpon>shopGrid.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>

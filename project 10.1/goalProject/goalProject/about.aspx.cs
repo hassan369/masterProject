@@ -7,7 +7,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class about : System.Web.UI.Page
     {

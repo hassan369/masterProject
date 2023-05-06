@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="checkout.aspx.cs" Inherits="goalProject.checkout" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site1.Master" AutoEventWireup="true" CodeBehind="checkout.aspx.cs" Inherits="masterProject.checkout" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -45,7 +45,7 @@
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
+                                <h5>0778871942</h5>
                                 <span>support 24/7 time</span>
                             </div>
                         </div>
@@ -84,123 +84,50 @@
                 </div>
             </div>
             <div class="checkout__form">
-                <h4>Billing Details</h4>
-                <div class="form1" action="#">
-                    <div class="row">
-                        <div class="col-lg-8 col-md-6">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Fist Name<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Last Name<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Address<span>*</span></p>
-                                <input type="text" placeholder="Street Address" class="checkout__input__add">
-                                <input type="text" placeholder="Apartment, suite, unite ect (optinal)">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Town/City<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Country/State<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input">
-                                <p>Postcode / ZIP<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Phone<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="checkout__input">
-                                        <p>Email<span>*</span></p>
-                                        <input type="text">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="acc">
-                                    Create an account?
-                                    <input type="checkbox" id="acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <p>Create an account by entering the information below. If you are a returning customer
-                                please login at the top of the page</p>
-                            <div class="checkout__input">
-                                <p>Account Password<span>*</span></p>
-                                <input type="text">
-                            </div>
-                            <div class="checkout__input__checkbox">
-                                <label for="diff-acc">
-                                    Ship to a different address?
-                                    <input type="checkbox" id="diff-acc">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </div>
-                            <div class="checkout__input">
-                                <p>Order notes<span>*</span></p>
-                                <input type="text"
-                                    placeholder="Notes about your order, e.g. special notes for delivery.">
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="checkout__order">
-                                <h4>Your Order</h4>
-                                <div class="checkout__order__products">Products <span>Total</span></div>
-                                <ul id="productList" runat="server">
-                                    
-                                </ul>
-<%--                                <div class="checkout__order__subtotal">Subtotal <span>$750.99</span></div>--%>
-                                <div class="checkout__order__total">Total <span id="totalPrice" runat="server"></span></div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="acc-or">
-                                        Create an account?
-                                        <input type="checkbox" id="acc-or">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-                                    ut labore et dolore magna aliqua.</p>
-                                <div class="checkout__input__checkbox">
-                                    <label for="payment">
-                                        Check Payment
-                                        <input type="checkbox" id="payment">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <div class="checkout__input__checkbox">
-                                    <label for="paypal">
-                                        Paypal
-                                        <input type="checkbox" id="paypal">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </div>
-                                <button type="submit" class="site-btn">PLACE ORDER</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <h4>Billing Details</h4>
+    <div class="row">
+        <div class="col-lg-8 col-md-6">
+            <div class="checkout__input">
+                <p>Full Name<span>*</span></p>
+                <asp:TextBox ID="txtFullName" runat="server" />
+
             </div>
+            <div class="checkout__input">
+                <p>Contact Number<span>*</span></p>
+                <asp:TextBox ID="txtContactNumber" runat="server" />
+            </div>
+            <div class="checkout__input">
+                <p>Email<span>*</span></p>
+               <asp:TextBox ID="txtEmail" runat="server" />
+            </div>
+            <div class="checkout__input">
+                <p>Complete Address<span>*</span></p>
+                <asp:TextBox ID="txtAddress" runat="server" />
+
+            </div>
+            <div class="checkout__input">
+                <p>Delivery Instructions (optional)</p>
+                <asp:TextBox ID="txtDeliveryInstructions" runat="server" />
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="checkout__order">
+                <h4>Your Order</h4>
+                <div class="checkout__order__products">Products <span>Total</span></div>
+                <ul id="productList" runat="server">
+                </ul>
+                <div class="checkout__order__total">Total <span id="totalPrice" runat="server"></span></div>
+                <asp:Button ID="Button2" runat="server" Text="PLACE ORDER" CssClass="site-btn" OnClick="Button2_Click" style="font-size: 18px; letter-spacing: 2px; width: 100%; margin-top: 10px;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
         </div>
     </section>
     <!-- Checkout Section End -->

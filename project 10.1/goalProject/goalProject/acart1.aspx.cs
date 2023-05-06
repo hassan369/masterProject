@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class acart1 : System.Web.UI.Page
     {
@@ -104,8 +104,8 @@ namespace goalProject
             //    }
             //}
 
-            //if (Session["name"] != null)
-            //{
+            if (Session["name"] != null)
+            {
 
                 if (!IsPostBack)
                 {
@@ -117,10 +117,10 @@ namespace goalProject
                         con = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
                         con2 = new SqlConnection("data source=  DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
 
-                        // writing sql query  
-                        SqlCommand cm = new SqlCommand($"select * from cart join product on cart.product_id = product.id where cart.user_id is null", con);
-                        // Opening Connection  
-                        con.Open();
+                    // writing sql query  
+                    SqlCommand cm = new SqlCommand($"select * from cart join product on cart.product_id = product.id join users on cart.user_id = users.id where cart.user_id = {Session["userId"]}", con);
+                    // Opening Connection  
+                    con.Open();
                         con2.Open();
                         // Executing the SQL query  
                         SqlDataReader sdr = cm.ExecuteReader();
@@ -140,14 +140,63 @@ namespace goalProject
                             double priceAfterQty = newPrice * Convert.ToInt32(sdr[4]);
                             PriceTotal += priceAfterQty;
 
-                            //if (Convert.ToDecimal(sdr[11]) != 0)
-                            //{
-                            //    cartContainer.InnerHtml += $"<div class='cartBox' ><img class='productIMG'  src='{sdr[10]}' /> <span class='details'>{sdr[6]}</span class='details'><a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>   <input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>    <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a><span class='details' style='text-decoration: line-through;'>{originalAfterQty} $</span> <span class='details'>{priceAfterQty} $</span> <a style='color: red; font-weight: bold; text-decoration: none;'  class='details' href='deleteCart.aspx?id={sdr[0]}'>delete</a><br/> </div>";
-                            //}
-                            //else
-                            //{
-                                cartContainer.InnerHtml += $" <tr>  <td class=\"shoping__cart__item\">\r\n                                        <img style='width:105px;' src='{sdr[10]}' alt=\"\">\r\n                                        <h5>{sdr[6]}</h5>\r\n                                    </td>\r\n                                    <td class=\"shoping__cart__price\">\r\n        {sdr[9]}\r\n                                    </td>\r\n                                    <td class=\"shoping__cart__quantity\">\r\n                                        <div class=\"quantity\">\r\n                                            <div class=\"pro-qty2\">\r\n                                                \r\n                                                <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>   \r\n                                                <input style='text-align:center;width:85px' type=\"text\" name=\"fname\" value='{sdr[4]}'>   \r\n                                                <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a> \r\n                                            </div>\r\n                                        </div>\r\n                                    </td>\r\n                                    <td class=\"shoping__cart__total\">\r\n                                        {priceAfterQty}JD\r\n                                    </td>\r\n                                    <td class=\"shoping__cart__item__close\">\r\n                                        <a href='deleteCart.aspx?id={sdr[0]}'><span class=\"icon_close\"></span></a>\r\n                                    </td>\r\n                                </tr>";
-                            //}
+                            if (Convert.ToDecimal(sdr[11]) != 0)
+                            {
+                                cartContainer.InnerHtml += $@"<tr>
+                                     <td class='shoping__cart__item'>
+                                         <img style='width:105px;' src='{sdr[10]}' alt=''>
+                                         <h5>{sdr[6]}</h5>
+                                     </td>
+                                     <td class='shoping__cart__price'>
+                                         {sdr[9]}
+                                     </td>
+                                     <td class='shoping__cart__quantity'>
+                                         <div class='quantity'>
+                                             <div class='pro-qty2'>
+                                                 <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>
+                                                 <input style='text-align:center;width:85px' type='text' name='fname' value='{sdr[4]}'>
+                                                 <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a>
+                                             </div>
+                                         </div>
+                                     </td>
+                                     <td class='shoping__cart__total'>
+                                         {priceAfterQty}JD
+                                     </td>
+                                     <td class='shoping__cart__item__close'>
+                                         <a href='deleteCart.aspx?id={sdr[0]}'><span class='icon_close'></span></a>
+                                     </td>
+                                 </tr>";
+                            }
+                            else
+                            {
+                                cartContainer.InnerHtml += $@"<tr>
+                                     <td class='shoping__cart__item'>
+                                         <img style='width:105px;' src='{sdr[10]}' alt=''>
+                                         <h5>{sdr[6]}</h5>
+                                     </td>
+                                     <td class='shoping__cart__price'>
+                                         {sdr[9]}
+                                     </td>
+                                     <td class='shoping__cart__quantity'>
+                                         <div class='quantity'>
+                                             <div class='pro-qty2'>
+                                                 <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr[5]}'>-</a>
+                                                 <input style='text-align:center;width:85px' type='text' name='fname' value='{sdr[4]}'>
+                                                 <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr[5]}'>+</a>
+                                             </div>
+                                         </div>
+                                     </td>
+                                     <td class='shoping__cart__total'>
+                                         {priceAfterQty}JD
+                                     </td>
+                                     <td class='shoping__cart__item__close'>
+                                         <a href='deleteCart.aspx?id={sdr[0]}'><span class='icon_close'></span></a>
+                                     </td>
+                                 </tr>";
+                            }
+
+
+
 
 
 
@@ -178,14 +227,114 @@ namespace goalProject
                     }
                 }
 
-            //}
-            //else
-            //{
-            //    //Label1.Text = "please log in first";
-            //}
+            }
+            else
+            {
+                // Load cart items from cookies for unauthenticated users
+                double PriceTotal = LoadCartFromCookies();
+                totalPrice.InnerHtml = PriceTotal.ToString();
+            }
 
 
         }
+
+        private Dictionary<int, int> GetTempCart()
+        {
+            var tempCart = new Dictionary<int, int>();
+
+            if (Request.Cookies["tempCart"] != null)
+            {
+                string[] items = Request.Cookies["tempCart"].Value.Split(',');
+
+                foreach (string item in items)
+                {
+                    string[] data = item.Split('-');
+                    int productId = int.Parse(data[0]);
+                    int qty = int.Parse(data[1]);
+                    tempCart.Add(productId, qty);
+                }
+            }
+
+            return tempCart;
+        }
+
+        private double LoadCartFromCookies()
+        {
+            var tempCart = GetTempCart();
+            double PriceTotal = 0;
+
+            if (tempCart.Count > 0)
+            {
+                SqlConnection con = null;
+                try
+                {
+                    con = new SqlConnection("data source= DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
+
+                    foreach (var item in tempCart)
+                    {
+                        int productId = item.Key;
+                        int qty = item.Value;
+
+                        SqlCommand cm = new SqlCommand($"SELECT * FROM product WHERE id = {productId}", con);
+                        con.Open();
+                        SqlDataReader sdr = cm.ExecuteReader();
+
+                        if (sdr.Read())
+                        {
+                            double x = Convert.ToDouble(sdr["price"]);
+                            double y = Convert.ToDouble(sdr["discount"]);
+                            double newPrice = x - (x * y);
+                            double originalAfterQty = x * qty;
+                            double priceAfterQty = newPrice * qty;
+                            PriceTotal += priceAfterQty;
+
+                            cartContainer.InnerHtml += $@"<tr>
+        <td class='shoping__cart__item'>
+            <img style='width:105px;' src='{sdr["imgSrc"]}' alt=''>
+            <h5>{sdr["name"]}</h5>
+        </td>
+        <td class='shoping__cart__price'>
+            {sdr["price"]}
+        </td>
+        <td class='shoping__cart__quantity'>
+            <div class='quantity'>
+                <div class='pro-qty2'>
+                    <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=minus&id={sdr["id"]}'>-</a>
+                    <input style='text-align:center;width:85px' type='text' name='fname' value='{qty}'>
+                    <a style='text-decoration:none;padding:2px 10px;border-radius:5px;background-color:#f24726;color:white' href='qtyChange.aspx?sign=plus&id={sdr["id"]}'>+</a>
+                </div>
+            </div>
+        </td>
+        <td class='shoping__cart__total'>
+            {priceAfterQty}JD
+        </td>
+        <td class='shoping__cart__item__close'>
+            <a href='deleteCart.aspx?id={sdr["id"]}'><span class='icon_close'></span></a>
+        </td>
+    </tr>";
+                        }
+                        con.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle exceptions if needed
+                }
+                finally
+                {
+                    if (con != null)
+                    {
+                        con.Close();
+                    }
+                }
+            }
+
+            return PriceTotal;
+        }
+
+
+
+
         protected void button_delete(object sender, EventArgs e)
         {
 

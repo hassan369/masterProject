@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="deleteCart.aspx.cs" Inherits="goalProject.deleteCart" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="deleteCart.aspx.cs" Inherits="masterProject.deleteCart" %>
 
 <!DOCTYPE html>
 

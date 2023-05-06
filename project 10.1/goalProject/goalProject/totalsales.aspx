@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="totalsales.aspx.cs" Inherits="goalProject.totalsales" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="totalsales.aspx.cs" Inherits="masterProject.totalsales" %>
 
 <!DOCTYPE html>
 

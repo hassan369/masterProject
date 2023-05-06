@@ -8,9 +8,10 @@ using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class homePage1 : System.Web.UI.Page
     {
@@ -97,7 +98,15 @@ namespace goalProject
             //    }
             //}
 
+            if (!IsPostBack)
+            {
+                if (Request.QueryString["actionCompleted"] == "true")
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "showAlert", "showAlert();", true);
+                }
+            }
 
+            
 
 
             if (!IsPostBack)
@@ -136,16 +145,18 @@ namespace goalProject
                         if (Convert.ToDecimal(sdr[6]) != 0)
                         {
                             double priceAfter = Convert.ToDouble(sdr[4]) * (1 - Convert.ToDouble(sdr[6]));
+                            string returnUrl = HttpUtility.UrlEncode(Request.Url.ToString());
+
                             //productsContainer.InnerHtml += $"<a href='product.aspx?id={sdr[0]}'><div><img style='width:100px; height:50px;' src='{sdr[5]}'/> <span>name:{sdr[1]}</span> <span>price:{sdr[4]}$</span> <span>discount:{sdr[6]}</span> </div></a>";
-                            productsContainer.InnerHtml += $"<div class='col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat'>     <div class=\"featured__item\">\r\n                        <a href='product1.aspx?id={sdr[0]}'>\r\n                        <div class=\"featured__item__pic set-bg\" data-setbg='{sdr[5]}'>\r\n        </a>                   <ul class='featured__item__pic__hover'>                               <li><a href='product1.aspx?id={sdr[0]}'><i class='fa fa-retweet'></i></a></li>                               <li><a href='product.aspx?id={sdr[0]}'><i class='fa fa-shopping-cart'></i></a></li>                         </ul>                 </div>                     </a>                     <div class=\"featured__item__text\">\r\n                            <h6><a href=\"#\">{sdr[1]}</a></h6>\r\n                            <h5><span style=\"text-decoration:line-through\">{sdr[4]}JD</span>{priceAfter}JD</h5>\r\n                        </div>\r\n                    </div>\r\n                </div>";
+                            productsContainer.InnerHtml += $"<div class='col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat'>     <div class=\"featured__item\">\r\n                        <a href='product1.aspx?id={sdr[0]}'>\r\n                        <div class=\"featured__item__pic set-bg\" data-setbg='{sdr[5]}'>\r\n      </a>                   <ul class='featured__item__pic__hover'>                               <li><a href='product1.aspx?id={sdr[0]}'><i class='fa fa-search'></i></a></li>                               <li><a href='otherpage.aspx?id={sdr[0]}&returnUrl={returnUrl}&scrollPosition={{scrollPosition}}'><i class='fa fa-shopping-cart'></i></a></li>                         </ul>                 </div>                     </a>                     <div class=\"featured__item__text\">\r\n                            <h6><a href=\"#\">{sdr[1]}</a></h6>\r\n                            <h5><span style=\"text-decoration: line-through; text-decoration-color: #ff0000; text-decoration-thickness: 1.5px; margin-right: 5px;\">{sdr[4]}JD</span><span style=\"color: #7fad39; font-weight: bold;\">{priceAfter}JD</span></h5>\r\n                        </div>\r\n                    </div>\r\n                </div>";
 
                         }
-                        else
-                        {
-                            //productsContainer.InnerHtml += $"<a href='product.aspx?id={sdr[0]}'><div><img style='width:100px; height:50px;' src='{sdr[5]}'/> <span>name:{sdr[1]}</span> <span>price:{sdr[4]}$</span> </div></a>";
-                            productsContainer.InnerHtml += $"<div class=\"col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat\">\r\n   <div class=\"featured__item\">\r\n                        <a href='product1.aspx?id={sdr[0]}'>\r\n                        <div class=\"featured__item__pic set-bg\" data-setbg='{sdr[5]}'>\r\n           </a>                 <ul class='featured__item__pic__hover'>                               <li><a href=product1.aspx?id={sdr[0]}><i class=\"fa fa-retweet\"></i></a></li>                              <li><a href=\"product.aspx?id={sdr[0]}\"><i class=\"fa fa-shopping-cart\"></i></a></li>\r\n                            </ul>\r\n                        </div>\r\n                        </a>\r\n                        <div class=\"featured__item__text\">\r\n                            <h6><a href=\"#\">{sdr[1]}</a></h6>\r\n                            <h5>{sdr[4]}JD</h5>\r\n                        </div>\r\n                    </div>\r\n                </div>";
+                        //else
+                        //{
+                        //    //productsContainer.InnerHtml += $"<a href='product.aspx?id={sdr[0]}'><div><img style='width:100px; height:50px;' src='{sdr[5]}'/> <span>name:{sdr[1]}</span> <span>price:{sdr[4]}$</span> </div></a>";
+                        //    productsContainer.InnerHtml += $"<div class=\"col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat\">\r\n   <div class=\"featured__item\">\r\n                        <a href='product1.aspx?id={sdr[0]}'>\r\n                        <div class=\"featured__item__pic set-bg\" data-setbg='{sdr[5]}'>\r\n           </a>                 <ul class='featured__item__pic__hover'>                               <li><a href=product1.aspx?id={sdr[0]}><i class=\"fa fa-search\"></i></a></li>                              <li><a href='otherpage.aspx?id={sdr[0]}&scrollPosition={{scrollPosition}}'><i class='fa fa-shopping-cart'></i></a></li>\r\n                            </ul>\r\n                        </div>\r\n                        </a>\r\n                        <div class=\"featured__item__text\">\r\n                            <h6><a href=\"#\">{sdr[1]}</a></h6>\r\n                            <h5>{sdr[4]}JD</h5>\r\n                        </div>\r\n                    </div>\r\n                </div>";
 
-                        }
+                        //}
 
 
 
@@ -163,7 +174,9 @@ namespace goalProject
                     con.Close();
                 }
 
+                
             }
+            
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -174,5 +187,7 @@ namespace goalProject
             Session["isAdmin"] = null;
             Response.Redirect("homePage.aspx");
         }
+       
+
     }
 }

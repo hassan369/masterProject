@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace goalProject
+namespace masterProject
 {
     public partial class product1 : System.Web.UI.Page
     {
@@ -102,82 +102,112 @@ namespace goalProject
 
         }
 
+        private Dictionary<int, int> GetTempCart()
+        {
+            var tempCart = new Dictionary<int, int>();
+
+            if (Request.Cookies["tempCart"] != null)
+            {
+                string[] items = Request.Cookies["tempCart"].Value.Split(',');
+
+                foreach (string item in items)
+                {
+                    string[] data = item.Split('-');
+                    int productId = int.Parse(data[0]);
+                    int qty = int.Parse(data[1]);
+                    tempCart.Add(productId, qty);
+                }
+            }
+
+            return tempCart;
+        }
+
+        private void SaveTempCart(Dictionary<int, int> tempCart)
+        {
+            var items = tempCart.Select(kv => $"{kv.Key}-{kv.Value}");
+            string cookieValue = string.Join(",", items);
+
+            HttpCookie cookie = new HttpCookie("tempCart", cookieValue);
+            cookie.Expires = DateTime.Now.AddDays(30); // You can set the expiration date based on your requirements
+            Response.Cookies.Add(cookie);
+        }
 
 
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
-            //if (Session["name"] != null)
-            //{
-                SqlConnection con = null;
-                SqlConnection con1 = null;
-                SqlConnection con2 = null;
+            int productId = Convert.ToInt32(Request.QueryString["id"]);
+            int qty = Convert.ToInt32(DropDownList1.SelectedValue);
+
+            if (Session["name"] != null)
+            {
+                int userId = Convert.ToInt32(Session["userId"]);
+                string connectionString = "data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI";
+
                 try
                 {
-                    // Creating Connection  
-                    con = new SqlConnection("data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
-                    con1 = new SqlConnection("data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
-                    con2 = new SqlConnection("data source = DESKTOP-HIMQ0KV\\SQLEXPRESS; database=goalProject; integrated security=SSPI");
-
-
-                    // writing sql query  
-                    SqlCommand cm1 = new SqlCommand($"select * from cart", con1);
-                    SqlCommand cm = new SqlCommand($"insert into cart  (product_id, qty)values('{Request.QueryString["id"]}',{DropDownList1.SelectedItem.Value}   )", con);
-                    SqlCommand cm2 = new SqlCommand($"update cart set qty = {DropDownList1.SelectedValue} where product_id = {Request.QueryString["id"]} ", con2);
-
-                    // Opening Connection  
-                    con.Open();
-                    con1.Open();
-                    con2.Open();
-                    SqlDataReader sdr1 = cm1.ExecuteReader();
-                    // Iterating Data
-                    bool there = false;
-                    while (sdr1.Read())
+                    using (SqlConnection con = new SqlConnection(connectionString))
                     {
+                        con.Open();
 
-                        if (Convert.ToInt32(sdr1[1]) == Convert.ToInt32(Request.QueryString["id"]) && Convert.ToInt32(sdr1[3]) == Convert.ToInt32(Session["userId"]))
+                        bool productExistsInCart = false;
+
+                        using (SqlCommand cmdCheck = new SqlCommand("SELECT COUNT(*) FROM cart WHERE product_id = @ProductId AND user_id = @UserId", con))
                         {
-                            there = true;
+                            cmdCheck.Parameters.AddWithValue("@ProductId", productId);
+                            cmdCheck.Parameters.AddWithValue("@UserId", userId);
 
-
+                            int count = (int)cmdCheck.ExecuteScalar();
+                            productExistsInCart = count > 0;
                         }
 
+                        if (productExistsInCart)
+                        {
+                            using (SqlCommand cmdUpdate = new SqlCommand("UPDATE cart SET qty = @Qty WHERE product_id = @ProductId AND user_id = @UserId", con))
+                            {
+                                cmdUpdate.Parameters.AddWithValue("@Qty", qty);
+                                cmdUpdate.Parameters.AddWithValue("@ProductId", productId);
+                                cmdUpdate.Parameters.AddWithValue("@UserId", userId);
 
+                                cmdUpdate.ExecuteNonQuery();
+                            }
+                        }
+                        else
+                        {
+                            using (SqlCommand cmdInsert = new SqlCommand("INSERT INTO cart (product_id, user_id, qty) VALUES (@ProductId, @UserId, @Qty)", con))
+                            {
+                                cmdInsert.Parameters.AddWithValue("@ProductId", productId);
+                                cmdInsert.Parameters.AddWithValue("@UserId", userId);
+                                cmdInsert.Parameters.AddWithValue("@Qty", qty);
 
-                    }
-                    if (there)
-                    {
-                        cm2.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        // Executing the SQL query  
-                        cm.ExecuteNonQuery();
+                                cmdInsert.ExecuteNonQuery();
+                            }
+                        }
                     }
 
-                    // Displaying a message  
-                    Console.WriteLine("Record Inserted Successfully");
-                    //Label1.Text = "Record Inserted Successfully";
+                    Console.WriteLine("Record Inserted/Updated Successfully");
                 }
-                catch (Exception A)
+                catch (Exception ex)
                 {
-                    // Label1.Attributes.Add("style", "display:inline-block");
-                    //Console.WriteLine("OOPs, something went wrong." + A);
-                   ////////////////// Label1.Text = "OOPs, something went wrong." + A;
+                   // Label1.Text = "OOPs, something went wrong." + ex;
                 }
-                // Closing the connection  
-                finally
+            }
+            else
+            {
+                var tempCart = GetTempCart();
+
+                if (tempCart.ContainsKey(productId))
                 {
-                    con.Close();
-                    con1.Close();
-                    con2.Close();
+                    tempCart[productId] = qty;
+                }
+                else
+                {
+                    tempCart.Add(productId, qty);
                 }
 
-            //}
-            //else
-            //{
-            //    Response.Redirect($"login.aspx?redirectId={Request.QueryString["id"]}");
-            //}
+                SaveTempCart(tempCart);
+            }
         }
+
 
 
         protected void Button2_Click(object sender, EventArgs e)
